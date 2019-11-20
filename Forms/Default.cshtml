@@ -1,46 +1,83 @@
 ﻿@{
     Layout = "~/_SiteLayout.cshtml";
-    Page.Title = "Home Page";
+    Page.Title = "Forms";
+
+    var db = Database.Open("Formstack");
+    var qry = "select * from Form";
 }
 
 @section featured {
 <section class="featured">
     <div class="content-wrapper">
-        <hgroup class="title">
-            <h1>@Page.Title.</h1>
-            <h2>Modify this template to jump-start your ASP.NET Web Pages application.</h2>
-        </hgroup>
-        <p>
-            To learn more about ASP.NET Web Pages, visit
-            <a href="https://asp.net/webpages" title="ASP.NET Web Pages Website">https://asp.net/webpages</a>.
-            The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET Web Pages.
-            If you have any questions about ASP.NET Web Pages, visit
-            <a href="https://forums.iis.net/1166.aspx" title="ASP.NET Web Pages Forum">our forums</a>.
-        </p>
+        <h3>From a Database</h3>
+        <table>
+            @{
+                try
+                {
+                    var forms = db.Query(qry);
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                    </tr>
+
+                    foreach (var row in forms)
+                    {
+                        <tr class="dataClass">
+                            <td>@row.FormId</td>
+                            <td class="FormName">@row.FormName</td>
+                            <td class="FormDescription">@row.FormDescription</td>
+                            <td>@row.DateAdded</td>
+                        </tr>
+                    }
+                }
+                catch (Exception)
+                {
+                    <tr>
+                        <td style="color:red;font-weight:bold">Error, while trying to get the forms from the database!</td>
+                    </tr>
+                }
+            }
+        </table>
+
+        <br /><br />
+
+        <h3>Hard-coded Values</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+
+            <tr class="dataClass">
+                <td>1</td>
+                <td class="FormName">Job Application</td>
+                <td class="FormDescription">Use this form to apply to different jobs.</td>
+                <td>09/20/2019 12:00:00 AM</td>
+            </tr>
+
+            <tr class="dataClass">
+                <td>2</td>
+                <td class="FormName">Online Shopp. Trends</td>
+                <td class="FormDescription">This form collects info about the new trends in Online Shopping.</td>
+                <td>10/25/2019 12:00:00 AM</td>
+            </tr>
+
+            <tr class="dataClass">
+                <td>3</td>
+                <td class="FormName">Customers Feedback</td>
+                <td class="FormDescription">This form gathers the customers feedback on our Deployment services.</td>
+                <td>11/30/2019 12:00:00 AM</td>
+            </tr>
+        </table>
+
+        <div id="dialog">
+            <p class="FormName" style="font-weight:bold"></p>
+            <p class="FormDescription"></p>
+        </div>
     </div>
 </section>
 }
-
-<h3>We suggest the following:</h3>
-
-<ol class="round">
-    <li class="one">
-        <h5>Getting Started</h5>
-        ASP.NET Web Pages and the new Razor syntax provide a fast, approachable, and lightweight way to combine server code with HTML
-        to create dynamic web content. Connect to databases, add video, link to social networking sites, and include many more features
-        that let you create beautiful sites using the latest web standards.
-        <a href="https://go.microsoft.com/fwlink/?LinkId=245139">Learn more…</a>
-    </li>
-
-    <li class="two">
-        <h5>Add NuGet packages and jump start your coding</h5>
-        NuGet makes it easy to install and update free libraries and tools.
-        <a href="https://go.microsoft.com/fwlink/?LinkId=245140">Learn more…</a>
-    </li>
-
-    <li class="three">
-        <h5>Find Web Hosting</h5>
-        You can easily find a web hosting company that offers the right mix of features and price for your applications.
-        <a href="https://go.microsoft.com/fwlink/?LinkId=245143">Learn more…</a>
-    </li>
-</ol>
